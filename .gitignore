@@ -1,0 +1,8 @@
+venv
+*.sqlite3
+.env
+*.pyc
+.vscode
+*.png
+static/
+media/
