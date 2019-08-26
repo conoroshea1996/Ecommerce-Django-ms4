@@ -1,49 +1,60 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div id="products-list" class="row row-flex my-5">
-    {% for product in products %}
-    <div class="col-12  col-sm-6 col-md-4 display panel panel-default ">
-        <div class="card">
-            <div class="product" style="background-image: url('{{ MEDIA_URL }}{{ product.image }}')">
-            </div>
-            <a href="{% url 'product' product.id %}">Link</a>
-            <h3>{{ product.name }}</h3>
-            <p class="product-description">{{ product.description }}</p>
-            <p>{{ product.price }}</p>
+<div class="container">
+    <div class="display">
+        <form class="test" action="{% url 'search' %}" method="GET">
+            <input id="search" type="text" name="q">
+            <button type="submit">search</button>
+        </form>
+    </div>
+    <div id="products-list" class="row row-flex my-5">
 
-            <form method="post" action="{% url 'add_to_cart' product.id %}">
-                {% csrf_token %}
-                <div class="input-group">
-                    <input name="quantity" type="number" min="1" max="999" class="form-control" placeholder="Quantity">
-                    <span class="input-group-btn">
-                        <button class="btn btn-success" type="submit">Add</button>
-                    </span>
+        {% for product in products %}
+        <div class="col-12 col-sm-6 col-md-4 display panel panel-default my-2">
+            <div class="card">
+                <div class="product" style="background-image: url('{{ MEDIA_URL }}{{ product.image }}')">
                 </div>
-            </form>
+                <a href="{% url 'product' product.id %}">Link</a>
+                <h3>{{ product.name }}</h3>
+                <p class="product-description">{{ product.description }}</p>
+                <p>{{ product.price }}</p>
+
+                <form method="post" action="{% url 'add_to_cart' product.id %}">
+                    {% csrf_token %}
+                    <div class="input-group">
+                        <input name="quantity" type="number" min="1" max="999" class="form-control"
+                            placeholder="Quantity">
+                        <span class="input-group-btn">
+                            <button class="btn btn-success" type="submit">Add</button>
+                        </span>
+                    </div>
+                </form>
+            </div>
         </div>
+
+        {% endfor %}
+
     </div>
 
-    {% endfor %}
+    <div class="pagination">
+        <span class="step-links">
+            {% if products.has_previous %}
+            <a href="?page=1">&laquo; first</a>
+            <a href="?page={{ products.previous_page_number }}">previous</a>
+            {% endif %}
 
-</div>
-<div class="pagination">
-    <span class="step-links">
-        {% if products.has_previous %}
-        <a href="?page=1">&laquo; first</a>
-        <a href="?page={{ products.previous_page_number }}">previous</a>
-        {% endif %}
+            <span class="current">
+                Page {{ products.number }} of {{ products.paginator.num_pages }}.
+            </span>
 
-        <span class="current">
-            Page {{ products.number }} of {{ products.paginator.num_pages }}.
+            {% if products.has_next %}
+            <a href="?page={{ products.next_page_number }}">next</a>
+            <a href="?page={{ products.paginator.num_pages }}">last &raquo;</a>
+            {% endif %}
         </span>
-
-        {% if products.has_next %}
-        <a href="?page={{ products.next_page_number }}">next</a>
-        <a href="?page={{ products.paginator.num_pages }}">last &raquo;</a>
-        {% endif %}
-    </span>
-</div>
+    </div>
 
 
-{% endblock %}
+
+    {% endblock %}
