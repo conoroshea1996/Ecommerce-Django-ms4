@@ -156,38 +156,7 @@
     <!-- ./Footer -->
 
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-    <script type="text/javascript">
-        $(document).on('submit', '.test', function (e) {
-            console.log(e);
-            var form = $('.test')
-            event.preventDefault()
-            var thisForm = $(this);
-            var actionEndpoint = thisForm.attr('action');
-            var httpMethod = thisForm.attr('method');
-
-            console.log(thisForm.attr('action'), thisForm.attr('method'));
-
-            $.ajax({
-                url: actionEndpoint,
-                type: 'GET',
-                data: {
-                    'q': $('#search').val(),
-                    'num': 1,
-                },
-                success: function (data) {
-                    var x = $(data).find("#products-list").html();
-                    $('#products-list').html(x);
-                    console.log(data);
-                    console.log(x);
-                },
-                dataType: 'html',
-                error: function (errorData) {
-                    console.log('doesnt work', errorData);
-
-                }
-            })
-        })
-    </script>
+    <script src="{% static 'js/search.js' %}"></script>
 
 
 
