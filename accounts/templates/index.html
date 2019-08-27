@@ -11,8 +11,8 @@
                 </ol>
                 <div class="carousel-inner" role="listbox">
                     <!-- Slide One - Set the background image for this slide in the line below -->
-                    <div class="carousel-item active"
-                        style="background-image: url('https://source.unsplash.com/LAaSoL0LrYs/1920x1080')">
+                    <div class="img carousel-item active "
+                        style="background-image: url('https://images.pexels.com/photos/63196/pexels-photo-63196.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500')">
                         <div class="carousel-caption d-none d-md-block">
                             <h2 class="display-4">Dress well</h2>
                             <p class="lead">This is a description for the first slide.</p>
@@ -49,8 +49,18 @@
         <div class="col-12 col-lg-3 pt-2">
             <h6 class="text-center">Catagories </h6>
             <div class="deals my-2">
-                <div class="deals-card"></div>
-                <div class="deals-card"></div>
+                <div class="deals-card">
+                    <a href="{% url 'products' 'shoes'  %}" class="shoes">
+                        <img src="https://images.pexels.com/photos/2814833/pexels-photo-2814833.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
+                            class="catagory-img">
+                    </a>
+                </div>
+                <div class="deals-card">
+                    <a href="{% url 'products' 'hoodie'  %}" class="shoes">
+                        <img src="https://images.pexels.com/photos/2666727/pexels-photo-2666727.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
+                            class="catagory-img">
+                    </a>
+                </div>
                 <div class="deals-card"></div>
             </div>
         </div>

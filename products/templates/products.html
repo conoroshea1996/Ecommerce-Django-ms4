@@ -1,24 +1,35 @@
 {% extends 'base.html' %}
 
 {% block content %}
+
+
 <div class="container">
+    <form class="filter" action="{% url 'products' %}" method="GET">
+        <input class="filter-catagory" id="filter" type="checkbox" name="catagory" value="shoes">
+        <input class="filter-catagory" id="filter2" type="checkbox" name="catagory" value="hoodie">
+        <input class="filter-catagory" id="filter3" type="checkbox" name="catagory" value="t-shirts">
+    </form>
+
+    <h2 class="filter-results"></h2>
+
     <div class="display">
         <form class="test" action="{% url 'search' %}" method="GET">
             <input id="search" type="text" name="q">
             <button type="submit">search</button>
         </form>
     </div>
+    <h1>{{ count }}</h1>
     <div id="products-list" class="row row-flex my-5">
-
         {% for product in products %}
         <div class="col-12 col-sm-6 col-md-4 display panel panel-default my-2">
             <div class="card">
-                <div class="product" style="background-image: url('{{ MEDIA_URL }}{{ product.image }}')">
+                <div class="product" style="background-image: url('/media/{{ product.image }}')">
                 </div>
                 <a href="{% url 'product' product.id %}">Link</a>
                 <h3>{{ product.name }}</h3>
                 <p class="product-description">{{ product.description }}</p>
                 <p>{{ product.price }}</p>
+                <p>{{ product.catagory }}</p>
 
                 <form method="post" action="{% url 'add_to_cart' product.id %}">
                     {% csrf_token %}
@@ -36,6 +47,7 @@
         {% endfor %}
 
     </div>
+
 
     <div class="pagination">
         <span class="step-links">

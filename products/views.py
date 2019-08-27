@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404
-from .models import Product
+from .models import Product, Catagory
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.http import HttpResponse
 from django.template.loader import render_to_string
@@ -7,27 +7,34 @@ from django.template.loader import render_to_string
 # Create your views here.
 
 
-def all_products(request):
+def all_products(request, catagory_name=None):
     products = Product.objects.all()
-    paginator = Paginator(products, 2)  # Show 25 contacts per page
+    catagorys = Catagory.objects.all()
+    selected_categories = None
 
-    page = request.GET.get('page')
-    # contacts = paginator.get_page(page)
+    if catagory_name:
+        catagory = get_object_or_404(Catagory, type=catagory_name)
+        products = Product.objects.filter(catagory=catagory)
 
-    try:
-        product_pages = paginator.page(page)
-    except PageNotAnInteger:
-        # If page is not an integer, deliver first page.
-        product_pages = paginator.page(1)
-    except EmptyPage:
-        # If page is out of range (e.g. 9999), deliver last page of results.
-        product_pages = paginator.page(paginator.num_pages)
+    if request.GET.getlist('catagory'):
+        selected_categories = Catagory.objects.filter(
+            type__in=request.GET.getlist('catagory'))
+       # filter products for selected categories
+        products = [
+            product for product in products if product.catagory in selected_categories]
+        print(products)
+        print(selected_categories)
 
     if request.is_ajax():
-        html = render_to_string('filter_products.html', {'products': products})
-        return (html)
+        html = render_to_string('products.html', {'products': products})
+        return HttpResponse(html)
 
-    return render(request, 'products.html', {"products": product_pages})
+    paginator = Paginator(products, 6)
+
+    page = request.GET.get('page')
+    products = paginator.get_page(page)
+
+    return render(request, 'products.html', {"products": products})
 
 
 def product(request, product_id):
