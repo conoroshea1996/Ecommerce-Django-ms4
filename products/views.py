@@ -26,10 +26,13 @@ def all_products(request, catagory_name=None):
         print(selected_categories)
 
     if request.is_ajax():
+        paginator = Paginator(products, 9)
+        page = request.GET.get('page')
+        products = paginator.get_page(page)
         html = render_to_string('products.html', {'products': products})
         return HttpResponse(html)
 
-    paginator = Paginator(products, 6)
+    paginator = Paginator(products, 9)
 
     page = request.GET.get('page')
     products = paginator.get_page(page)
@@ -39,5 +42,6 @@ def all_products(request, catagory_name=None):
 
 def product(request, product_id):
     product = get_object_or_404(Product, pk=product_id)
+    product_img = product.photo_set.all()
 
-    return render(request, 'product.html', {"product": product})
+    return render(request, 'product.html', {"product": product, 'images': product_img})
