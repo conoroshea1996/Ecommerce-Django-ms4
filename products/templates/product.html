@@ -10,13 +10,13 @@
     {% for comment in comment %}
     <h2>{{comment}}</h2>
     {% endfor %}
+    {{rating}}
 </div>
 
-{{rating}}
 <form id="comments" action="{% url 'product' product.id %}" method="POST">
     {% csrf_token %}
     {{ comment_form | as_bootstrap }}
-    <button type="submit">comment</button>
+    <button class="comment-post" type="submit">comment</button>
 </form>
 <section class="section-content bg padding-y-sm">
     <div class="container">
