@@ -32,6 +32,14 @@
                     </form>
                 </p>
             </div>
+            <form method="post" action="{% url 'remove_from_cart' item.product.id %}">
+                {% csrf_token %}
+                <div class="input-group">
+                    <span class="input-group-btn">
+                        <button class="btn btn-success" type="submit">Remove</button>
+                    </span>
+                </div>
+            </form>
         </div>
         {% endfor %}
     </div>

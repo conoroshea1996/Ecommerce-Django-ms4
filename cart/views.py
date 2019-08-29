@@ -20,7 +20,14 @@ def add_to_cart(request, id):
 
     request.session['cart'] = cart
     messages.success(request, 'Item Added!')
-    return redirect(reverse('index'))
+    return redirect(reverse('products'))
+
+
+def remove_from_cart(request, id):
+    cart = request.session.get('cart', {})
+    del cart[id]
+    request.session['cart'] = cart
+    return redirect('view_cart')
 
 
 def adjust_cart(request, id):
