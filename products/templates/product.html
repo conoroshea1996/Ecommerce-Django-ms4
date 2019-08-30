@@ -13,11 +13,13 @@
     {{rating}}
 </div>
 
-<form id="comments" action="{% url 'product' product.id %}" method="POST">
+
+<form id="comments" action="{% url 'product' product.id %}" method="POST" novalidate>
     {% csrf_token %}
     {{ comment_form | as_bootstrap }}
     <button class="comment-post" type="submit">comment</button>
 </form>
+
 <section class="section-content bg padding-y-sm">
     <div class="container">
         <div class="row">
@@ -228,5 +230,7 @@
 </section>
 
 
+
+<h2 class="id_pk_key">{{ comment_form.product.value|default_if_none:product.id }}</h2>
 
 {% endblock %}
