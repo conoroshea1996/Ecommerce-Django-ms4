@@ -229,8 +229,9 @@
 
 
 <div class="comment-section-box">
-    {% for comment in comment %}
+    {% for comment in comment reversed %}
     <h2>{{comment}}</h2>
+    <h5>{{comment.date_posted}}</h5>
     {% endfor %}
     {{rating}}
 </div>
