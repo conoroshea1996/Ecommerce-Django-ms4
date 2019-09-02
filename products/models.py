@@ -10,6 +10,13 @@ class Catagory(models.Model):
         return self.type
 
 
+class Brand(models.Model):
+    brand = models.CharField(max_length=50, null=True)
+
+    def __str__(self):
+        return self.brand
+
+
 class Product(models.Model):
     name = models.CharField(max_length=254, default='', unique=True)
     description = models.TextField()
@@ -17,6 +24,9 @@ class Product(models.Model):
     image = models.ImageField(upload_to='images')
     catagory = models.ForeignKey(
         Catagory, on_delete=models.CASCADE, default='')
+    brand = models.ForeignKey(
+        Brand, on_delete=models.CASCADE, null=True)
+    views = models.IntegerField(default=0)
 
     def __str__(self):
         return self.name

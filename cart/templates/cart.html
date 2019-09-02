@@ -3,44 +3,52 @@
 {% load bootstrap_tags %}
 
 {% block content %}
-<div class="container">
-    <div class="row row-flex">
+<div class="container-fluid">
+    <div class="cart-title">
+        <h6>Product</h6>
+        <h6 class="text-center">Quantity</h6>
+        <h6 class="text-center">Price</h6>
+        <h6 class="text-center">Total</h6>
+    </div>
+    <div class="cart-box">
+
         {% for item in cart_items %}
 
-        <div class="col-12 col-sm-8 col-md-8 display card ">
-
-            <div class="product" style="background-image: url('{{ MEDIA_URL }}{{ item.product.image }}')"></div>
-
-            <div class="caption">
-                <h3>{{ item.product.name }}</h3>
-                <p class="product-description">{{ item.product.description }}</p>
-                <p>{{ item.product.price }}</p>
-                <p>
-
-                    <form class="form-inline" method="post" action="{% url 'adjust_cart' item.id %}">
-                        {% csrf_token %}
-                        <div class="form-group">
-                            <label for="exampleInputAmount" class="sr-only">New Qty</label>
-                            <div class="input-group">
-                                <div class="input-group-addon">Qty</div>
-                                <input name="quantity" type="number" min="0" max="999" class="form-control">
-                                <div class="input-group-addon">{{item.quantity}}</div>
-                            </div>
-                        </div>
-                        <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-edit"
-                                aria-hidden="true"></span>Amend</button>
-                    </form>
-                </p>
-            </div>
-            <form method="post" action="{% url 'remove_from_cart' item.product.id %}">
-                {% csrf_token %}
-                <div class="input-group">
-                    <span class="input-group-btn">
-                        <button class="btn btn-success" type="submit">Remove</button>
-                    </span>
+        <div class="cart-info">
+            <div class="cart-img">
+                <div class="product-cart-img" style="background-image: url('{{ MEDIA_URL }}{{ item.product.image }}')">
                 </div>
-            </form>
+            </div>
+            <div class="">
+                <h3 class="my-0">{{ item.product.name }}</h3>
+                <p class="product-description">{{ item.product.description }}</p>
+                <p class="my-0">{{ item.product.price }}</p>
+                <p>
+            </div>
         </div>
+
+        <div class="caption">
+            <form class="form-inline" method="post" action="{% url 'adjust_cart' item.id %}">
+                {% csrf_token %}
+                <div class="form-group">
+                    <div class="input-group">
+                        <input name="quantity" type="number" min="0" max="999" class="form-control"
+                            value="{{item.quantity}}">
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-edit"
+                        aria-hidden="true"></span>Amend</button>
+            </form>
+            </p>
+        </div>
+        <form method="post" action="{% url 'remove_from_cart' item.product.id %}">
+            {% csrf_token %}
+            <div class="input-group">
+                <span class="input-group-btn">
+                    <button class="btn btn-success" type="submit">Remove</button>
+                </span>
+            </div>
+        </form>
         {% endfor %}
     </div>
 </div>
@@ -50,5 +58,10 @@
     <a href="{% url 'checkout' %}" class="btn btn-success" role="button"><span class="glyphicon glyphicon-ok-sign"
             aria-hidden="true"></span>Checkout</a>
 </div>
+
+
+
+
+
 
 {% endblock %}

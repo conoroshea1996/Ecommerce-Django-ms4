@@ -1,5 +1,5 @@
-"""ecomm URL Configuration
 
+"""ecomm URL Configuration
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/2.2/topics/http/urls/
 Examples:
@@ -23,10 +23,11 @@ from checkout import urls as urls_checkout
 from search import urls as urls_search
 from django.views import static
 from .settings import MEDIA_ROOT
+from accounts.views import index
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    re_path(r'^$', all_products, name='index'),
+    re_path(r'^$', index, name='index'),
     re_path(r'^accounts/', include(urls_accounts)),
     re_path(r'^products/', include(urls_products)),
     re_path(r'^cart/', include(urls_carts)),

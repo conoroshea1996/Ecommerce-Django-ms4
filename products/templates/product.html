@@ -122,7 +122,17 @@
                                 <hr>
                                 <a href="#" class="btn  btn-warning"> <i class="fa fa-envelope"></i> Contact Supplier
                                 </a>
-                                <a href="#" class="btn  btn-outline-warning"> Start Order </a>
+
+                                <form method="post" action="{% url 'add_to_cart' product.id %}">
+                                    {% csrf_token %}
+                                    <div class="input-group">
+                                        <input name="quantity" type="hidden" value="1" class="form-control"
+                                            placeholder="Quantity">
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-success" type="submit">Add</button>
+                                        </span>
+                                    </div>
+                                </form>
                                 <!-- short-info-wrap .// -->
                             </article> <!-- card-body.// -->
                         </aside> <!-- col.// -->
@@ -231,6 +241,6 @@
 
 
 
-<h2 class="id_pk_key">{{ comment_form.product.value|default_if_none:product.id }}</h2>
+<h2 hidden class="id_pk_key">{{ comment_form.product.value|default_if_none:product.id }}</h2>
 
 {% endblock %}
