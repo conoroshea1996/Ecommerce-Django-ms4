@@ -6,19 +6,7 @@
 {{product.name}}
 {{product.views }}
 
-<div class="comment-section-box">
-    {% for comment in comment %}
-    <h2>{{comment}}</h2>
-    {% endfor %}
-    {{rating}}
-</div>
 
-
-<form id="comments" action="{% url 'product' product.id %}" method="POST" novalidate>
-    {% csrf_token %}
-    {{ comment_form | as_bootstrap }}
-    <button class="comment-post" type="submit">comment</button>
-</form>
 
 <section class="section-content bg padding-y-sm">
     <div class="container">
@@ -239,6 +227,24 @@
     </div><!-- container // -->
 </section>
 
+
+<div class="comment-section-box">
+    {% for comment in comment %}
+    <h2>{{comment}}</h2>
+    {% endfor %}
+    {{rating}}
+</div>
+
+{% if user.is_authenticated %}
+<form id="comments" action="{% url 'product' product.id %}" method="POST" novalidate>
+    {% csrf_token %}
+    {{ comment_form | as_bootstrap }}
+    <button class="comment-post" type="submit">comment</button>
+</form>
+
+{% else %}
+<h4>Please login to post a comment</h4>
+{% endif %}
 
 
 <h2 hidden class="id_pk_key">{{ comment_form.product.value|default_if_none:product.id }}</h2>
