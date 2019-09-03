@@ -233,8 +233,11 @@
     <h2>{{comment}}</h2>
     <h5>{{comment.date_posted}}</h5>
     {% endfor %}
-    {{rating}}
+    <h4>
+        {{rating.rating__avg|floatformat}}
+    </h4>
 </div>
+
 
 {% if user.is_authenticated %}
 <form id="comments" action="{% url 'product' product.id %}" method="POST" novalidate>
@@ -242,7 +245,6 @@
     {{ comment_form | as_bootstrap }}
     <button class="comment-post" type="submit">comment</button>
 </form>
-
 {% else %}
 <h4>Please login to post a comment</h4>
 {% endif %}
