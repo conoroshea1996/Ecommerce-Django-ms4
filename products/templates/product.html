@@ -232,6 +232,7 @@
     {% for comment in comment reversed %}
     <h2>{{comment}}</h2>
     <h5>{{comment.date_posted}}</h5>
+    <h6>by {{comment.user}}</h6>
     {% endfor %}
     <h4>
         {{rating.rating__avg|floatformat}}
