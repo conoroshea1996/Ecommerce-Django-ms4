@@ -4,5 +4,4 @@ venv
 *.pyc
 .vscode
 *.png
-static/
 media/

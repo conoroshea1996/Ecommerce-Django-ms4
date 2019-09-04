@@ -58,6 +58,7 @@ def checkout(request):
             messages.error(
                 request, "We were unable to take a payment with that card!")
     else:
+        messages.error(request, "Incorrect card number or details")
         payment_form = MakePaymentForm()
         order_form = OrderForm()
 
