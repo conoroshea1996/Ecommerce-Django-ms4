@@ -89,13 +89,6 @@
 
     <h1>{% block page_heading %} {% endblock %}</h1>
 
-    {% if messages %}
-    <div>
-        {% for message in messages %}
-        {{message}}
-        {% endfor %}
-    </div>
-    {% endif %}
     {% block content %}
     {% endblock %}
     </div>
