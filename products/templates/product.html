@@ -228,17 +228,28 @@
 </section>
 
 
-<div class="comment-section-box">
-    {% for comment in comment reversed %}
-    <h2>{{comment}}</h2>
-    <h5>{{comment.date_posted}}</h5>
-    <h6>by {{comment.user}}</h6>
-    {% endfor %}
-    <h4>
-        {{rating.rating__avg|floatformat}}
-    </h4>
-</div>
 
+{{rating.rating__avg|floatformat}}
+
+<h3 class="text-center"> Reviews</h3>
+{% for comment in comment reversed %}
+<div class="reviews">
+    <div class="row blockquote review-item">
+        <div class="col-md-3 text-center">
+            <img class="rounded-circle reviewer" src="http://standaloneinstaller.com/upload/avatar.png">
+            <div class="caption">
+                <small>by {{comment.user}}</small>
+            </div>
+        </div>
+        <div class="col-md-9">
+            <h4> Rating :{{comment.rating}}</h4>
+            <div class="ratebox text-center" data-id="0" data-rating="5"></div>
+            <p class="review-text">{{comment}} </p>
+            <small class="review-date">{{comment.date_posted}}</small>
+        </div>
+    </div>
+</div>
+{% endfor %}
 
 {% if user.is_authenticated %}
 <form id="comments" action="{% url 'product' product.id %}" method="POST" novalidate>
