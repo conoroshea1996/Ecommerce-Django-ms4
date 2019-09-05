@@ -28,37 +28,40 @@ def checkout(request):
             cart = request.session.get('cart', {})
             total = 0
             for id, quantity in cart.items():
-                product = get_object_or_404(Product, pk=id)
-                total += quantity * product.price
-                order_line_item = OrderLineItem(
-                    order=order,
-                    product=product,
-                    quantity=quantity
-                )
-                order_line_item.save()
+                if len(cart) > 0:
+                    product = get_object_or_404(Product, pk=id)
+                    total += quantity * product.price
+                    order_line_item = OrderLineItem(
+                        order=order,
+                        product=product,
+                        quantity=quantity
+                    )
+                    order_line_item.save()
+                else:
+                    messages.error(
+                        request, "Your cart is empty")
 
-            try:
-                customer = stripe.Charge.create(
-                    amount=int(total * 100),
-                    currency="EUR",
-                    description=request.user.email,
-                    card=payment_form.cleaned_data['stripe_id'],
-                )
-            except stripe.error.CardError:
-                messages.error(request, "Your card was declined!")
+                try:
+                    customer = stripe.Charge.create(
+                        amount=int(total * 100),
+                        currency="EUR",
+                        description=request.user.email,
+                        card=payment_form.cleaned_data['stripe_id'],
+                    )
+                except stripe.error.CardError:
+                    messages.error(request, "Your card was declined!")
 
-            if customer.paid:
-                messages.error(request, "You have successfully paid")
-                request.session['cart'] = {}
-                return redirect(reverse('products'))
+                if customer.paid:
+                    messages.error(request, "You have successfully paid")
+                    request.session['cart'] = {}
+                    return redirect(reverse('products'))
+                else:
+                    messages.error(request, "Unable to take payment")
             else:
-                messages.error(request, "Unable to take payment")
-        else:
-            print(payment_form.errors)
-            messages.error(
-                request, "We were unable to take a payment with that card!")
+                print(payment_form.errors)
+                messages.error(
+                    request, "We were unable to take a payment with that card!")
     else:
-        messages.error(request, "Incorrect card number or details")
         payment_form = MakePaymentForm()
         order_form = OrderForm()
 

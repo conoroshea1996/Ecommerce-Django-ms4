@@ -57,6 +57,8 @@ $(document).ready(function () {
 $(document).on('submit', '#comments', function (e) {
     event.preventDefault();
     var data = $('#comments').serializeArray();
+
+
     var key = $('.id_pk_key').text()
 
     data[3].value = key;
@@ -70,7 +72,7 @@ $(document).on('submit', '#comments', function (e) {
             var comments_form = $($.parseHTML(data)).filter("#comments");
             $('#comments').replaceWith(comments_form);
             $('.comment-section-box').replaceWith(success);
-            $('#div_id_product').hide()
+            $('#div_id_product').hide();
         },
         error: function (errorData) {
             console.log(errorData);
@@ -80,8 +82,7 @@ $(document).on('submit', '#comments', function (e) {
 })
 
 
-//  Alert message disaper after 3 seconds
-
+//  Alert message fade out  after 3 seconds
 setTimeout(function () {
     $('.alert').slideUp('slow')
 }, 3000)
